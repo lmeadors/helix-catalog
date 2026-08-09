@@ -14,7 +14,7 @@ blocks.
 ## Path 1 (dsp0)
 
 ```mermaid
-graph LR
+graph TD
     IN0([Input]) --> VG["VolPan Gain<br/>-10 dB"]
     VG --> VV["VolPan Vol<br/>(pedal)"]
     VV -.-> WC["Wah Chrome<br/>(OFF)"]
@@ -33,7 +33,7 @@ graph LR
 ## Path 2 (dsp1)
 
 ```mermaid
-graph LR
+graph TD
     IN1([Input]) --> DL1["Transistor Tape Delay"]
     DL1 -.-> DL2["Transistor Tape Delay<br/>(OFF)"]
     DL2 --> CH["70s Chorus"]
