@@ -27,13 +27,23 @@ def load_preset(path: str) -> dict:
 
 
 def describe_dsp_path(dsp: dict, label: str) -> None:
-    """Print the block chain for a single DSP path, ordered by @position."""
+    """Print the block chain for a single DSP path, ordered by @position then @path."""
     audible_blocks = [
         (key, block)
         for key, block in dsp.items()
         if key not in STRUCTURAL_KEYS and isinstance(block, dict) and "@position" in block
     ]
-    audible_blocks.sort(key=lambda kv: kv[1]["@position"])
+    # @path (0/1) picks out which parallel A/B sub-path a block sits on after
+    # a split. Blocks on different sub-paths can share the same @position, so
+    # sort on @path too or the two branches interleave arbitrarily.
+    audible_blocks.sort(key=lambda kv: (kv[1]["@position"], kv[1].get("@path", 0)))
+
+    # A position shared by more than one block means a split is active at
+    # that point in the chain — tag those blocks with their A/B path so it's
+    # clear they're parallel, not sequential.
+    position_counts = {}
+    for _, block in audible_blocks:
+        position_counts[block["@position"]] = position_counts.get(block["@position"], 0) + 1
 
     print(f"\n{label}")
     print("-" * len(label))
@@ -42,9 +52,13 @@ def describe_dsp_path(dsp: dict, label: str) -> None:
         enabled = block.get("@enabled", True)
         state = "on " if enabled else "OFF"
         pos = block.get("@position")
+        pos_label = str(pos)
+        if position_counts[pos] > 1:
+            path = block.get("@path", 0)
+            pos_label += "AB"[path] if path in (0, 1) else "?"
         # Collect the "real" params — skip the @-prefixed structural fields.
         params = {k: v for k, v in block.items() if not k.startswith("@")}
-        print(f"  [{pos}] {state} {model}  ({key})")
+        print(f"  [{pos_label}] {state} {model}  ({key})")
         for pname, pval in params.items():
             print(f"        {pname}: {pval}")
 
