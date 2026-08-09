@@ -40,3 +40,62 @@ graph TD
     COMP --> PITCH["Simple Pitch"]
     PITCH --> OUT1([Output])
 ```
+
+## Why this tone works — 80s Marshall-style hard rock/metal
+
+*Written in the house voice — see "Writing tone write-ups" in the README.
+Blends confirmed parameter values with general knowledge of these
+amp/pedal models and genre conventions; treat the interpretive claims as
+informed reading, not confirmed fact.*
+
+The preset's `band` metadata straight-up credits Ozzy Osbourne, and the
+block choices back that up: this reads like an early-80s Randy
+Rhoads-style rig — a boosted, jumped-channel Marshall pushed by a
+mid-forward EQ, with just enough modulation to feel period-correct, not a
+modern scooped high-gain sound.
+
+- **Noise gate first** — standard move for tight, high-gain rhythm
+  playing. Kills the hiss and hum between palm-muted chugs so you don't
+  have to be surgical with your mute hand.
+- **TS808 in front of the amp, not after it** — a Tube Screamer ahead of
+  the amp isn't really adding gain of its own; it's reshaping the EQ
+  (cutting lows, pushing that 700 Hz–1 kHz range) and shoving the amp's
+  front end harder. Textbook trick for tightening up a Marshall's low end
+  and adding mid punch and sustain — you'll find this pairing all over
+  80s hard rock and shred tones built on Marshall-family amps.
+- **10-band EQ leans hard into the mids, cuts the lows** — `500Hz: +11.8`,
+  `1kHz: +14.2`, `2kHz: +10.8` against `31p25Hz: -4.2`, `62p5Hz: -3.7`.
+  That's an aggressive mid hump, the opposite of the scooped curve modern
+  high-gain metal usually goes for — built to cut through a mix, not sit
+  under it, and it lines up with the TS808's own mid-forward personality.
+- **Plexi Jump amp** — models a "jumped" vintage Marshall, both channel
+  inputs bridged together, for a hotter, more complex, more harmonically
+  dense overdrive than either channel gives you alone. Well-known vintage
+  trick from exactly the era this tone is drawing on.
+- **Gray Flanger kept conservative, `Mix: 0.5`** — not going for a
+  dramatic jet-swoosh here. At this setting it's a subtle
+  shimmer/doubling texture, closer to the understated flange coloring you
+  hear on Randy Rhoads-era tones than an obviously "flangey" effect.
+- **Second path adds compression and a subtle detune** —
+  `HD2_CompressorLAStudioComp` evens out sustain for leads, and
+  `HD2_PitchSimplePitch` (`Cents1: -17`, `Mix: 0.77`) blends in a slightly
+  detuned voice — a chorus-adjacent thickening trick for single-note runs
+  rather than a real chorus block.
+
+### Guitar & pickups
+
+Passive humbuckers are the right call — that's what this style of rig was
+built around, and they're what feeds a jumped Plexi and a TS808 boost the
+push this patch expects. Active pickups (EMG-style) would skew this
+toward a tighter, more compressed, more modern high-gain sound that
+doesn't match what's actually going on in the chain. Single-coils would
+work too if that's what you've got, but expect a thinner, less saturated
+result than the patch is really aiming for — you'd probably want to push
+the drive stack a little harder to compensate.
+
+Net effect: a tight, gated rhythm tone with a boosted, jumped Marshall
+doing the heavy lifting, a mid-forward EQ so it actually cuts through,
+and just enough flange/detune texture to feel "80s" without turning into
+a wash — the opposite design goal from the Matchless tone
+(`Matchless (v3).flow.md`), which is built to blend in rather than cut
+through.

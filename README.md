@@ -64,6 +64,28 @@ python3 scripts/parse_hlx.py presets/samples/Randy_Tribute.hlx
 Prints the full signal chain for each DSP path, in position order, with all
 parameters for each block.
 
+## Writing tone write-ups
+
+A preset's companion `.flow.md` can include a "Why this tone works" section
+connecting its block/parameter choices to the musical goal it's built for.
+Keep these consistent across presets:
+
+- **Voice** — write like an experienced session player explaining their
+  choices to a bandmate: practical, direct, assumes some gear literacy but
+  not encyclopedic knowledge. Not a fictional character, just a consistent
+  register, so write-ups read like one project rather than a pile of
+  one-off notes.
+- **Confirmed vs. speculative** — ground each point in an actual
+  `@position`/parameter value where you can, and flag anything that's
+  genre convention or general gear knowledge rather than something read
+  out of the JSON. One italic disclaimer at the top of the section covers
+  this — no need to hedge every sentence.
+- **Guitar/pickup pairing** — fine to note what guitar or pickup type
+  (passive vs. active, humbucker vs. single-coil) suits a tone, since
+  pickup character interacts directly with drive and amp headroom. Keep it
+  at that level of generality, not specific guitar models — that's about
+  as far as genre-convention advice can be defended.
+
 ## Contributing
 
 Drop a `.hlx` file into `presets/samples/`, run it through the parser, and
