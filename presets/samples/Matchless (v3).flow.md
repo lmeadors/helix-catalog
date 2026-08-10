@@ -5,17 +5,19 @@ reading `@position`/`@path`/`@enabled` on each block. Dashed lines mark a
 block that's bypassed (OFF) but still routed inline, passing signal through
 unaffected.
 
-**Status:** dsp0 (Path 1) topology is straightforward — a single chain that
-splits into two parallel cabs post-amp and rejoins. dsp1 (Path 2) is
-unverified against the actual HX Edit routing — see the open question in
-`glossary/models.md` about `@path`/`@position` semantics on split/join
-blocks.
+**Status:** confirmed against the HX Edit signal chain view. Both the dsp0
+cab split and the dsp1 reverb split match what was inferred from
+`@position`/`@path` in the JSON. One correction from that check: Path 1
+and Path 2 aren't independent parallel chains — HX Edit shows Path 1's
+input as "Guitar" and its output routed into "Path 2A", while Path 2's own
+input is "None" (no direct guitar feed). This preset runs Path 1 into
+Path 2 in series, not two paths both fed from the guitar.
 
 ## Path 1 (dsp0)
 
 ```mermaid
 graph TD
-    IN0([Input]) --> VG["VolPan Gain<br/>-10 dB"]
+    IN0([Guitar]) --> VG["VolPan Gain<br/>-10 dB"]
     VG --> VV["VolPan Vol<br/>(pedal)"]
     VV -.-> WC["Wah Chrome<br/>(OFF)"]
     WC --> KB["Kinky Boost"]
@@ -27,14 +29,16 @@ graph TD
     SPLIT -->|B| CABB["Cab: Greenback 20"]
     CABA --> JOIN((join))
     CABB --> JOIN
-    JOIN --> OUT0([Output])
+    JOIN --> OUT0(["To Path 2"])
 ```
 
 ## Path 2 (dsp1)
 
+Fed from Path 1's output above, not a fresh guitar input.
+
 ```mermaid
 graph TD
-    IN1([Input]) --> DL1["Transistor Tape Delay"]
+    IN1(["From Path 1"]) --> DL1["Transistor Tape Delay"]
     DL1 -.-> DL2["Transistor Tape Delay<br/>(OFF)"]
     DL2 --> CH["70s Chorus"]
     CH --> SPLIT{{split}}
@@ -99,6 +103,16 @@ voiced for a more compressed, higher-gain sound than anything happening
 in this chain. Playing a humbucker-loaded guitar through this isn't a
 problem — just roll the guitar's volume back a bit going in, and you'll
 get closer to the single-coil-ish clarity the tone is built around.
+
+If actives are what you've got, that's workable, just budget for it.
+They're hotter, flatter, and already buffered/preamp'd, so they'll push
+the drive stack harder and land more compressed and tighter than this
+patch was tuned for — the touch-dynamic "clean up when you back off"
+behavior passives give you mostly isn't there either. Pull the three
+drive blocks down a bit from where they sit now (`0.3`/`0.25`/`0.81`) to
+land back near the intended edge-of-breakup feel. The volume-pedal swell
+isn't affected either way — that's done with `HD2_VolPanVol` in the
+Helix chain, not the guitar's own volume knob.
 
 Net effect: a clear, chimey clean-to-edge-of-breakup base, a volume pedal
 positioned so swells actually work, and a heavily ambient second path for
