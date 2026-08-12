@@ -2,8 +2,7 @@
 
 ## Why this tone works — contemporary worship
 
-*Written in the house voice — see "Writing tone write-ups" in the README.
-Blends confirmed parameter values with general knowledge of these
+*Blends confirmed parameter values with general knowledge of these
 amp/pedal models and genre conventions; treat the interpretive claims as
 informed reading, not confirmed fact.*
 

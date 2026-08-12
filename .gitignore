@@ -3,3 +3,7 @@ __pycache__/
 .DS_Store
 node_modules/
 site/dist/
+
+# Official Line 6 documentation - copyrighted, large; see README for how
+# to fetch these locally instead of committing them.
+*.pdf

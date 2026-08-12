@@ -86,6 +86,31 @@ Keep these consistent across presets:
   at that level of generality, not specific guitar models — that's about
   as far as genre-convention advice can be defended.
 
+## Reference documentation
+
+The glossary is cross-checked against Line 6's official documentation —
+the *Helix LT 3.80 Owner's Manual* and the *HX Edit 3.80 Pilot's Guide*.
+Both have real-world "Based On" gear tables (what amp/pedal/mic each
+block model actually models) and explain HX Edit/hardware UI conventions
+that aren't otherwise obvious from the `.hlx` JSON alone.
+
+These are large (~14MB and ~22MB) copyrighted PDFs, so they're
+`.gitignore`d rather than committed. To fetch your own local copies into
+the repo root:
+
+```
+curl -L -o "Helix LT 3.80 Owner's Manual - English .pdf" "https://line6.com/data/6/0a00051afd86673ccb96424d9/application/pdf/Helix%20LT%203.80%20Owner's%20Manual%20-%20English%20.pdf"
+
+curl -L -o "HX Edit Pilots Guide 3.80 - English .pdf" "https://line6.com/data/6/0a00051aff0e673cd37585ccd/application/pdf/HX%20Edit%20Pilots%20Guide%203.80%20-%20English%20.pdf"
+```
+
+(`-L` follows redirects, `-o` sets the output filename to match what
+`glossary/models.md` cites.) If you have a different Helix device or
+firmware version, grab the matching manuals from
+[line6.com/support/manuals](https://line6.com/support/manuals/) instead —
+the block models are shared across the platform, but exact page numbers
+in glossary citations assume these specific v3.80 documents.
+
 ## Contributing
 
 Drop a `.hlx` file into `presets/samples/`, run it through the parser, and

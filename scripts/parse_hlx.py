@@ -33,6 +33,15 @@ def describe_dsp_path(dsp: dict, label: str) -> None:
         for key, block in dsp.items()
         if key not in STRUCTURAL_KEYS and isinstance(block, dict) and "@position" in block
     ]
+    # Some blocks (e.g. a dual-mic cab's second mic, seen as a "cab0" key)
+    # carry a real @model but no @position at all, so the position-ordered
+    # loop below would silently skip them. Surface those separately rather
+    # than losing them.
+    unpositioned_blocks = [
+        (key, block)
+        for key, block in dsp.items()
+        if key not in STRUCTURAL_KEYS and isinstance(block, dict) and "@model" in block and "@position" not in block
+    ]
     # @path (0/1) picks out which parallel A/B sub-path a block sits on after
     # a split. Blocks on different sub-paths can share the same @position, so
     # sort on @path too or the two branches interleave arbitrarily.
@@ -59,6 +68,15 @@ def describe_dsp_path(dsp: dict, label: str) -> None:
         # Collect the "real" params — skip the @-prefixed structural fields.
         params = {k: v for k, v in block.items() if not k.startswith("@")}
         print(f"  [{pos_label}] {state} {model}  ({key})")
+        for pname, pval in params.items():
+            print(f"        {pname}: {pval}")
+
+    for key, block in unpositioned_blocks:
+        model = block.get("@model", "UNKNOWN_MODEL")
+        enabled = block.get("@enabled", True)
+        state = "on " if enabled else "OFF"
+        params = {k: v for k, v in block.items() if not k.startswith("@")}
+        print(f"  [no position] {state} {model}  ({key})")
         for pname, pval in params.items():
             print(f"        {pname}: {pval}")
 
